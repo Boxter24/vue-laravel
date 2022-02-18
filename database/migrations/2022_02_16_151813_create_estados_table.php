@@ -15,11 +15,13 @@ class CreateEstadosTable extends Migration
     public function up()
     {
         Schema::create('estados', function (Blueprint $table) {
+            $table->engine="InnoDB";
             $table->bigIncrements('id');
             $table->string('name');            
-            $table->unsignedInteger('pais_id') -> nullable();
-            //$table->foreign('pais_id')->references('id')->on('pais');
+            $table->bigInteger('pais_id') -> unsigned();            
             $table->timestamps();
+            
+            $table->foreign('pais_id')->references('id')->on('pais')->onDeleted("cascade");
         });
     }
 

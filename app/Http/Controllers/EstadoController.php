@@ -13,8 +13,8 @@ class EstadoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {   
-        return Estado::all();
+    {                       
+        return Estado::all();      
     }
 
     /**

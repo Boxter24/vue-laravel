@@ -21,6 +21,7 @@ Route::resource('/estado', 'EstadoController')->middleware('auth');
 Route::resource('/pais', 'PaisController')->middleware('auth');
 Route::resource('/usuario', 'UsuarioController')->middleware('auth');
 
+
 Route::get('/home', 'HomeController@index')->name('home');
 
 

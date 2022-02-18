@@ -8,7 +8,7 @@
                 <input type="number" placeholder="Telefono" class="form-control mb-2" v-model="usuario.telefono">
                 <input type="email" placeholder="Email" class="form-control mb-2" v-model="usuario.email">
                 <input type="text" placeholder="Direccion" class="form-control mb-2" v-model="usuario.direccion">
-                <input type="password" placeholder="CI" class="form-control mb-2" v-model="usuario.password">                
+                <input type="password" placeholder="CI" class="form-control mb-2" v-model="usuario.password">                                
                 <button class="btn btn-primary bg-blue-600" type="submit">Editar</button>
             </form>   
             <form @submit.prevent="agregar()" v-else>
@@ -19,6 +19,8 @@
                 <input type="email" placeholder="Email" class="form-control mb-2" v-model="usuario.email">
                 <input type="text" placeholder="Direccion" class="form-control mb-2" v-model="usuario.direccion">
                 <input type="password" placeholder="CI" class="form-control mb-2" v-model="usuario.password">                
+                <pais-select v-model="usuario.pais_id" @idPais="idPais=$event"/>
+                <estado-select v-model="usuario.idEstado" :idPais="idPais" @idEstado="idEstado=$event"></estado-select>
                 <button class="btn btn-primary bg-blue-600" type="submit">Guardar</button>
             </form>            
         </div> 
@@ -32,7 +34,8 @@
                     <th scope="col">Apellido</th>
                     <th scope="col">Telefono</th> 
                     <th scope="col">Email</th> 
-                    <th scope="col">Direccion</th>        
+                    <th scope="col">Direccion</th>   
+                    <th scope="col">ID Pais</th>     
                     <th scope="col">Opciones</th>                     
                     </tr>
                 </thead>
@@ -43,7 +46,8 @@
                         <td>{{item.apellido}}</td>
                         <td>{{item.telefono}}</td>
                         <td>{{item.email}}</td>
-                        <td>{{item.direccion}}</td>                                               
+                        <td>{{item.direccion}}</td>                                              
+                        <td>{{item.pais_id}}</td> 
                         <td class="">
                             <button class="btn btn-warning btn-sm d-inline" @click="editarForm(item)">Editar</button>
                             <button class="btn btn-danger btn-sm d-inline" @click="eliminarUsuario(item, index)">Eliminar</button>
@@ -59,6 +63,8 @@
 export default{
     data(){
         return{
+            idEstado: "",
+            idPais: "",
             usuarios: [],
             usuario: {
                 name:"",
@@ -66,14 +72,16 @@ export default{
                 telefono:"",
                 email:"",
                 direccion:"",
-                password:"",                
+                password:"",
+                pais_id:"",
+                estado_id:"",                 
             },
             edit: false,
         }        
     },
     created(){
         axios.get('/usuario').then(res=>{
-        this.usuarios = res.data;
+        this.usuarios = res.data;        
         })
     },
     methods:{
@@ -90,7 +98,9 @@ export default{
                 email: this.usuario.email,
                 direccion: this.usuario.direccion,
                 password: this.usuario.password,
-            }
+                pais_id: this.idPais,
+                estado_id: this.idEstado,
+            }            
             this.usuario.name = "";
             this.usuario.apellido = "",
             this.usuario.telefono = "",
@@ -118,17 +128,19 @@ export default{
             this.usuario.telefono = item.telefono;
             this.usuario.email = item.email;
             this.usuario.direccion = item.direccion;
-            this.usuario.password = item.password;
+            this.usuario.password = item.password;            
             this.usuario.id = item.id;
         },
         editarUsuario(item){                   
             const params = {
                 name: item.name,
                 apellido: item.apellido,
-                apellido: item.telefono,
+                telefono: item.telefono,
                 email: item.email,
                 direccion: item.direccion,
                 password: item.password,
+                //pais_id: item.idPais,
+                //estado_id: item.idEstado,
             };            
             this.usuario.name = "";
             this.usuario.apellido = "",
@@ -139,13 +151,15 @@ export default{
             axios.put(`/usuario/${item.id}`,params)
                 .then(res => {
                     this.edit = false;
-                    const index = this.usuario.findIndex(buscar => buscar.id === res.data.id)                    
+                    const index = this.usuarios.findIndex(buscar => buscar.id === res.data.id)                    
                     this.usuarios[index].name = res.data.name;
                     this.usuarios[index].apellido = res.data.apellido;
                     this.usuarios[index].telefono = res.data.telefono;
                     this.usuarios[index].email = res.data.email;
                     this.usuarios[index].direccion = res.data.direccion;
                     this.usuarios[index].password = res.data.password;
+                    //this.usuarios[index].idPais = res.data.pais_id;
+                    //this.usuarios[index].idEstado = res.data.estado_id;
                 })                                         
         }
     },

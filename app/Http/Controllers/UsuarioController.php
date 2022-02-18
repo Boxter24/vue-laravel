@@ -42,7 +42,9 @@ class UsuarioController extends Controller
         $user->telefono = $request->telefono;        
         $user->direccion = $request->direccion;        
         $user->email = $request->email;        
-        $user->password = $request->password;        
+        $user->password = $request->password; 
+        $user->pais_id = $request->pais_id;  
+        $user->estado_id = $request->estado_id;         
         $user->save();
 
         return $user;
@@ -87,7 +89,9 @@ class UsuarioController extends Controller
         $user->telefono = $request->telefono;        
         $user->direccion = $request->direccion;        
         $user->email = $request->email;        
-        $user->password = $request->password;        
+        $user->password = $request->password;  
+        $user->pais_id = $request->pais_id;  
+        $user->estado_id = $request->estado_id;        
         $user->save();
 
         return $user;

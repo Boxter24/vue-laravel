@@ -48,7 +48,8 @@ export default{
     },
     created(){
         axios.get('/pais').then(res=>{
-        this.paises = res.data;
+            this.paises = res.data;
+
         })
     },
     methods:{
@@ -57,7 +58,7 @@ export default{
                 alert('No pueden haber campos vacios, complete por favor.');
                 return;
             }
-            console.log(this.pais.name)
+            
             const params = {
                 pais: this.pais.name,
             }

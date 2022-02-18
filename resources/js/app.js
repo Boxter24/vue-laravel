@@ -52,6 +52,8 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 Vue.component('estado', require('./components/Estado.vue').default);
 Vue.component('pais', require('./components/Pais.vue').default);
 Vue.component('usuario', require('./components/Usuarios.vue').default);
+Vue.component('pais-select', require('./components/PaisSelect.vue').default);
+Vue.component('estado-select', require('./components/EstadoSelect.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
